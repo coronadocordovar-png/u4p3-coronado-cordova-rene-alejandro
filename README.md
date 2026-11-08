@@ -1,96 +1,103 @@
-# U4S8 — Coronado Córdova René Alejandro
+﻿# U4P3 - Practica 1: Categorias, facturacion y reportes SQL
 
-**Alumno:** René Alejandro Coronado Córdova
+**Alumno:** Rene Alejandro Coronado Cordova
 **Grupo:** DSM 4-1
 **Carrera:** TSU en Desarrollo de Software Multiplataforma
-**Universidad:** Universidad Tecnológica de Hermosillo
+**Institucion:** Universidad Tecnologica de Hermosillo
+**Fecha:** 08/11/2026
 
-## Demo en vivo (producción)
+## Descripcion del proyecto
 
-https://u4s8-coronado-cordova-rene-alejandro.onrender.com
+Aplicacion web desarrollada con Django y MySQL para administrar
+servicios, categorias y facturas, ademas de consultar seis reportes SQL.
 
-URL del servicio publicado en Render. Las pruebas funcionales completas de producción deben verificarse por separado.
+El proyecto U4P3 continua el trabajo realizado en U4S8,
+incorporando nuevas funcionalidades de administracion y consulta.
 
-## Qué hace este proyecto
+## Funcionalidades
 
-Aplicación web desarrollada con Django que permite a los usuarios registrarse, iniciar sesión, cerrar sesión y administrar sus servicios mediante operaciones CRUD: crear, consultar, editar y eliminar registros.
+- Registro, inicio y cierre de sesion.
+- Administracion de servicios mediante CRUD.
+- Busqueda de servicios y paginacion.
+- Administracion de categorias.
+- Creacion y consulta de facturas.
+- Registro de detalles de factura.
+- Calculo de importes de facturacion.
+- Seis reportes SQL.
+- Consulta del plan de ejecucion mediante EXPLAIN.
+- Exportacion de resultados en formato CSV.
 
-El sistema incorpora búsqueda de servicios por título, sin distinguir mayúsculas y minúsculas, y paginación de cinco registros por página. La búsqueda se conserva al navegar entre páginas.
+## Tecnologias
 
-Los servicios se almacenan en una base de datos MySQL alojada en Aiven. El sistema utiliza autenticación de Django y consultas filtradas por el usuario autenticado para restringir el acceso a los registros correspondientes.
+- Python
+- Django 6.1.1
+- MySQL en Aiven
+- PyMySQL
+- HTML y Tailwind CSS
+- Git y GitHub
+- Render
+- Gunicorn
+- WhiteNoise
 
-La Semana 8 corresponde al cierre del proyecto: auditoría, respaldo de datos, documentación, despliegue definitivo y publicación de la versión v1.0, sin incorporar nuevas funcionalidades.
+## Repositorio
 
-## Stack técnico
+https://github.com/coronadocordovar-png/u4p3-practica1-coronado-cordova-rene-alejandro
 
-- Python y Django.
-- MySQL alojado en Aiven.
-- HTML y Tailwind CSS.
-- Git y GitHub.
-- Render para el despliegue web.
-- Gunicorn y WhiteNoise.
+## Aplicacion publicada
 
-## Cómo se prueba el aislamiento por usuario
+https://u4p3-practica1-coronado-cordova-rene.onrender.com
 
-La aplicación está diseñada para que cada usuario consulte y administre únicamente sus propios servicios.
+## Instalacion local
 
-La prueba indicada en la Semana 6 consiste en:
+1. Clonar el repositorio.
+2. Crear un entorno virtual de Python.
+3. Instalar las dependencias:
 
-1. Registrar dos usuarios diferentes.
-2. Iniciar sesión con la primera cuenta.
-3. Crear un servicio.
-4. Cerrar sesión e ingresar con la segunda cuenta.
-5. Comprobar que el servicio de la primera cuenta no aparece en el listado de la segunda.
-6. Intentar acceder a la edición de un servicio ajeno y verificar que la aplicación responde con un error 404.
+   pip install -r requirements.txt
 
-Estado: prueba pendiente de confirmar en el servicio final de producción.
+4. Configurar las variables de entorno tomando como referencia
+   el archivo .env.example.
 
-## Historial de unidades
+5. Configurar una base de datos MySQL autorizada.
 
-- **Unidad 1:** portafolio estático con HTML5 y Tailwind CSS.
-- **Unidad 2:** modelo Servicio, migraciones a MySQL en Aiven y despliegue dinámico en Render.
-- **Unidad 3:** CRUD completo con ModelForms, autenticación y sesiones.
-- **Unidad 4:** búsqueda, paginación, revisión de interfaz y defensa final.
+6. Aplicar las migraciones:
 
-## Seguridad y respaldo
+   python manage.py migrate
 
-La configuración privada se administra mediante variables de entorno. El archivo `.env` no debe publicarse en GitHub.
+7. Iniciar el servidor:
 
-El respaldo final `backup_final.json` se generó fuera del repositorio para evitar publicar información de los usuarios.
+   python manage.py runserver
 
-El código y la versión v1.0 están publicados. La validación funcional completa en producción y la restauración del respaldo permanecen pendientes de confirmar.
+## Reportes SQL
 
+El sistema incluye seis consultas SQL para analizar informacion
+de servicios, categorias, facturas y clientes.
 
-## Release publicada y restauración
+Los reportes permiten visualizar resultados y consultar el
+plan de ejecucion mediante EXPLAIN.
 
-### Release v1.0
+## Evidencias
 
-La versión final del proyecto se publicó en GitHub Releases.
+Consultar el archivo EVIDENCIAS.md y la carpeta evidencias/.
 
-Enlace:
-https://github.com/coronadocordovar-png/u4s8-coronado-cordova-rene-alejandro/releases/tag/v1.0
+## Seguridad
 
-### Respaldo de datos
+Las credenciales y claves privadas se administran mediante
+variables de entorno.
 
-Archivo: backup_final.json
+El archivo .env no debe publicarse ni incluirse en los
+paquetes de entrega.
 
-Ubicación local:
-C:\Users\coron\Documents\4-1\backup_final.json
+## Historial del proyecto
 
-Fecha: 26/10/2026
+U4S8: version anterior del sistema de servicios.
 
-El archivo se conserva fuera del repositorio y no está incluido en la Release.
+U4P3: ampliacion con categorias, facturacion y reportes SQL.
 
-### Generación y restauración
+## Verificacion
 
-Para generar un respaldo JSON con Django:
+El proyecto dispone de evidencias de GitHub, Render,
+categorias, servicios, facturas, resultados SQL y EXPLAIN.
 
-    python manage.py dumpdata --indent 2 -o backup_final.json
-
-Para restaurar los datos en una base de datos de prueba,
-con las migraciones previamente aplicadas:
-
-    python manage.py loaddata backup_final.json
-
-Estos comandos se documentan como procedimiento de referencia.
-La restauración todavía no se ha comprobado.
+Las pruebas deben realizarse utilizando una base de datos
+de prueba y credenciales autorizadas.
