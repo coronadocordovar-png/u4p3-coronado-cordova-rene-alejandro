@@ -1,0 +1,84 @@
+{# extends: usa el molde base.html (debe ser la primera etiqueta) #}
+{% extends 'core/base.html' %}
+
+{# block titulo: texto de la pestaña #}
+{% block titulo %}Categorías{% endblock %}
+
+{# block contenido: lo que va dentro del body #}
+{% block contenido %}
+  {# h1: título de la página #}
+  <h1 class="text-2xl font-bold mb-6">Categorías</h1>
+  {# grid: en celular una columna; desde md, formulario a la izquierda y tabla a la derecha #}
+  <div class="grid gap-6 md:grid-cols-3">
+    {# form: alta de una categoría nueva; ocupa 1 de las 3 columnas #}
+    <form method="POST" class="space-y-3 border border-slate-200 rounded-xl p-4 h-fit">
+      {# csrf_token: obligatorio en todo formulario POST #}
+      {% csrf_token %}
+      {# h2: título del formulario #}
+      <h2 class="font-semibold">Nueva categoría</h2>
+      {# form.as_p: dibuja nombre y descripción con sus errores #}
+      {{ form.as_p }}
+      {# botón que envía el formulario #}
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg">Guardar</button>
+    {# cierra el formulario #}
+    </form>
+    {# div: la tabla ocupa 2 de las 3 columnas; overflow-x-auto la desliza en celular #}
+    <div class="md:col-span-2 overflow-x-auto">
+      {# table: lista de categorías #}
+      <table class="w-full border border-slate-200 rounded-lg overflow-hidden">
+        {# thead: encabezados #}
+        <thead class="bg-slate-100">
+          {# tr: fila de encabezados #}
+          <tr>
+            {# th: nombre #}
+            <th class="text-left px-4 py-2">Categoría</th>
+            {# th: total de servicios; text-right alinea números a la derecha #}
+            <th class="text-right px-4 py-2">Mis servicios</th>
+            {# th: acciones #}
+            <th class="text-left px-4 py-2">Acciones</th>
+          {# cierra la fila de encabezados #}
+          </tr>
+        {# cierra thead #}
+        </thead>
+        {# tbody: filas de datos #}
+        <tbody>
+          {# for: una fila por categoría #}
+          {% for categoria in categorias %}
+          {# tr: fila de la categoría #}
+          <tr class="border-t border-slate-200">
+            {# td: nombre y, debajo, la descripción en gris #}
+            <td class="px-4 py-2"><b>{{ categoria.nombre }}</b><br><span class="text-sm text-slate-500">{{ categoria.descripcion }}</span></td>
+            {# td: total_servicios viene del annotate(Count) de la vista #}
+            <td class="px-4 py-2 text-right">{{ categoria.total_servicios }}</td>
+            {# td: enlaces de acción en un solo renglón #}
+            <td class="px-4 py-2 whitespace-nowrap">
+              {# enlace a /categorias/<id>/editar/ #}
+              <a href="{% url 'editar_categoria' categoria.pk %}" class="text-blue-600 underline">Editar</a>
+              {# form POST: borrar solo con botón; onsubmit confirm() pide confirmación en el navegador #}
+              <form method="POST" action="{% url 'eliminar_categoria' categoria.pk %}" class="inline" onsubmit="return confirm('¿Eliminar esta categoría?');">
+                {# csrf_token: también en este mini formulario #}
+                {% csrf_token %}
+                {# botón con aspecto de enlace rojo; w-auto anula el ancho completo de base.html #}
+                <button type="submit" class="text-red-600 underline ml-3 w-auto">Eliminar</button>
+              {# cierra el mini formulario #}
+              </form>
+            {# cierra la celda de acciones #}
+            </td>
+          {# cierra la fila #}
+          </tr>
+          {# empty: si todavía no hay categorías #}
+          {% empty %}
+          {# fila con el aviso, a lo ancho de las 3 columnas #}
+          <tr><td colspan="3" class="text-center text-slate-500 py-6">Aún no hay categorías. Crea la primera con el formulario.</td></tr>
+          {# endfor: fin de la repetición #}
+          {% endfor %}
+        {# cierra tbody #}
+        </tbody>
+      {# cierra la tabla #}
+      </table>
+    {# cierra el contenedor de la tabla #}
+    </div>
+  {# cierra la cuadrícula #}
+  </div>
+{# endblock: fin del contenido #}
+{% endblock %}

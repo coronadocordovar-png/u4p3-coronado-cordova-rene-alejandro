@@ -1,0 +1,94 @@
+{# extends: usa el molde base.html #}
+{% extends 'core/base.html' %}
+
+{# block titulo: el folio en la pestaña #}
+{% block titulo %}Factura {{ factura.folio }}{% endblock %}
+
+{# block contenido: lo que va dentro del body #}
+{% block contenido %}
+  {# encabezado: folio a la izquierda y datos a la derecha; flex-wrap en celular #}
+  <div class="flex flex-wrap justify-between items-start gap-4 mb-6">
+    {# div: folio y cliente #}
+    <div>
+      {# p: etiqueta pequeña #}
+      <p class="text-sm text-slate-500">Factura</p>
+      {# h1: folio en letra monoespaciada #}
+      <h1 class="text-2xl font-bold font-mono">{{ factura.folio }}</h1>
+      {# p: cliente #}
+      <p class="mt-1">Cliente: <b>{{ factura.cliente }}</b></p>
+    {# cierra folio y cliente #}
+    </div>
+    {# div: fecha y emisor alineados a la derecha #}
+    <div class="text-right text-sm">
+      {# p: fecha con formato día/mes/año #}
+      <p>Fecha: <b>{{ factura.fecha|date:"d/m/Y" }}</b></p>
+      {# p: el usuario que la emitió #}
+      <p>Emitida por: <b>{{ factura.usuario.username }}</b></p>
+    {# cierra fecha y emisor #}
+    </div>
+  {# cierra el encabezado #}
+  </div>
+  {# overflow-x-auto: la tabla se desliza en celular #}
+  <div class="overflow-x-auto">
+    {# table: renglones de la factura #}
+    <table class="w-full border border-slate-200 rounded-lg overflow-hidden">
+      {# thead: encabezados #}
+      <thead class="bg-slate-100">
+        {# tr: fila de encabezados #}
+        <tr>
+          {# th: servicio #}
+          <th class="text-left px-4 py-2">Servicio</th>
+          {# th: categoría #}
+          <th class="text-left px-4 py-2">Categoría</th>
+          {# th: cantidad #}
+          <th class="text-right px-4 py-2">Cantidad</th>
+          {# th: precio unitario #}
+          <th class="text-right px-4 py-2">Precio unitario</th>
+          {# th: subtotal #}
+          <th class="text-right px-4 py-2">Subtotal</th>
+        {# cierra la fila #}
+        </tr>
+      {# cierra thead #}
+      </thead>
+      {# tbody: los renglones #}
+      <tbody>
+        {# for: un renglón por detalle #}
+        {% for detalle in detalles %}
+        {# tr: fila del renglón #}
+        <tr class="border-t border-slate-200">
+          {# td: título del servicio #}
+          <td class="px-4 py-2">{{ detalle.servicio.titulo }}</td>
+          {# td: su categoría (ya viene por select_related) #}
+          <td class="px-4 py-2">{{ detalle.servicio.categoria|default:"Sin categoría" }}</td>
+          {# td: cantidad #}
+          <td class="px-4 py-2 text-right">{{ detalle.cantidad }}</td>
+          {# td: precio guardado al momento de la venta #}
+          <td class="px-4 py-2 text-right">${{ detalle.precio_unitario }}</td>
+          {# td: subtotal = la @property del modelo #}
+          <td class="px-4 py-2 text-right">${{ detalle.subtotal|floatformat:2 }}</td>
+        {# cierra la fila #}
+        </tr>
+        {# endfor: fin de los renglones #}
+        {% endfor %}
+      {# cierra tbody #}
+      </tbody>
+      {# tfoot: pie de la tabla con el total #}
+      <tfoot>
+        {# tr: fila del total con fondo gris #}
+        <tr class="border-t-2 border-slate-300 bg-slate-50">
+          {# td: colspan=4 ocupa las 4 primeras columnas #}
+          <td colspan="4" class="px-4 py-3 text-right font-semibold">Total</td>
+          {# td: total calculado por aggregate(Sum) en la vista #}
+          <td class="px-4 py-3 text-right text-lg font-bold">${{ total|floatformat:2 }}</td>
+        {# cierra la fila del total #}
+        </tr>
+      {# cierra tfoot #}
+      </tfoot>
+    {# cierra la tabla #}
+    </table>
+  {# cierra el contenedor #}
+  </div>
+  {# enlace de regreso #}
+  <a href="{% url 'facturas' %}" class="inline-block mt-6 text-slate-600 underline">← Volver a facturas</a>
+{# endblock: fin del contenido #}
+{% endblock %}

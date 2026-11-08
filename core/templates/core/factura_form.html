@@ -1,0 +1,74 @@
+{# extends: usa el molde base.html #}
+{% extends 'core/base.html' %}
+
+{# block titulo: texto de la pestaña #}
+{% block titulo %}Nueva factura{% endblock %}
+
+{# block contenido: lo que va dentro del body #}
+{% block contenido %}
+  {# h1: título #}
+  <h1 class="text-2xl font-bold mb-4">Nueva factura</h1>
+  {# form: UN solo formulario envía el encabezado y todos los renglones juntos #}
+  <form method="POST" class="space-y-6">
+    {# csrf_token: obligatorio en POST #}
+    {% csrf_token %}
+    {# grid: cliente y fecha lado a lado desde sm #}
+    <div class="grid gap-4 sm:grid-cols-2 max-w-2xl">
+      {# form.as_p: dibuja cliente y fecha (con calendario) #}
+      {{ form.as_p }}
+    {# cierra el encabezado #}
+    </div>
+    {# management_form: 4 campos ocultos que le dicen a Django cuántos renglones vienen; SIN esto el formset falla #}
+    {{ formset.management_form }}
+    {# non_form_errors: errores generales del formset (ej. "envía al menos 1 formulario") #}
+    {% if formset.non_form_errors %}<div class="bg-red-100 text-red-800 px-4 py-2 rounded-lg">{{ formset.non_form_errors }}</div>{% endif %}
+    {# overflow-x-auto: la tabla de renglones se desliza en celular #}
+    <div class="overflow-x-auto">
+      {# table: un renglón por cada formulario del formset #}
+      <table class="w-full border border-slate-200 rounded-lg overflow-hidden">
+        {# thead: encabezados #}
+        <thead class="bg-slate-100">
+          {# tr: fila de encabezados #}
+          <tr>
+            {# th: número de renglón #}
+            <th class="text-left px-3 py-2 w-10">#</th>
+            {# th: servicio #}
+            <th class="text-left px-3 py-2">Servicio</th>
+            {# th: cantidad #}
+            <th class="text-left px-3 py-2 w-32">Cantidad</th>
+          {# cierra la fila #}
+          </tr>
+        {# cierra thead #}
+        </thead>
+        {# tbody: los renglones #}
+        <tbody>
+          {# for: recorre cada formulario del formset (1 obligatorio + 3 extra) #}
+          {% for renglon in formset %}
+          {# tr: un renglón de captura #}
+          <tr class="border-t border-slate-200 align-top">
+            {# td: forloop.counter = 1, 2, 3, 4; hidden_fields = campos ocultos id y factura que Django necesita #}
+            <td class="px-3 py-2 text-slate-500">{{ forloop.counter }}{% for oculto in renglon.hidden_fields %}{{ oculto }}{% endfor %}</td>
+            {# td: la lista desplegable de TUS servicios y su error si lo hay #}
+            <td class="px-3 py-2">{{ renglon.servicio }}{{ renglon.servicio.errors }}</td>
+            {# td: la cantidad y su error #}
+            <td class="px-3 py-2">{{ renglon.cantidad }}{{ renglon.cantidad.errors }}</td>
+          {# cierra el renglón #}
+          </tr>
+          {# endfor: fin de los renglones #}
+          {% endfor %}
+        {# cierra tbody #}
+        </tbody>
+      {# cierra la tabla #}
+      </table>
+    {# cierra el contenedor #}
+    </div>
+    {# p: ayuda; los renglones que dejes sin servicio se ignoran #}
+    <p class="text-sm text-slate-500">Llena al menos un renglón. Los renglones sin servicio se ignoran. El precio se toma del servicio al guardar.</p>
+    {# botón guardar; w-auto anula el ancho completo #}
+    <button type="submit" class="w-auto bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg">Guardar factura</button>
+    {# regresar sin guardar #}
+    <a href="{% url 'facturas' %}" class="ml-3 text-slate-600 underline">Cancelar</a>
+  {# cierra el formulario #}
+  </form>
+{# endblock: fin del contenido #}
+{% endblock %}
