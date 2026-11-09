@@ -1,64 +1,27 @@
-﻿# Evidencias de la práctica U4P3
+﻿<!-- Datos del alumno: cambia los de ejemplo por los tuyos -->
+# Evidencias u4p3 — Rene Alejandro Coronado Cordova — DSM4-1
 
-**Alumno:** Rene Alejandro Coronado Cordova
-**Grupo:** DSM 4-1
-**Fecha:** 08/11/2026
+<!-- Enlace del video en Drive (con permiso "Cualquier persona con el enlace") -->
+Video: https://drive.google.com/...
+<!-- URL de tu Web Service -->
+Render: https://u4p3-practica1-coronado-cordova-rene.onrender.com
 
-## Repositorio y despliegue
+<!-- Una fila por punto: escribe el minuto donde se ve; la captura ya debe estar en evidencias/ -->
+| #  | Punto                                              | Minuto   | Captura                          |
+|----|----------------------------------------------------|----------|----------------------------------|
+| 1  | Presentación con nombre, grupo y GitHub            | 00:00:00 | —                                |
+| 2  | Paso 02: migrate de la tabla Categoria OK          |          | evidencias/02-migrate.png        |
+| 3  | Paso 03: migración que copia categorías OK         |          | evidencias/03-copiar.png         |
+| 4  | Paso 04: quitar texto y renombrar, sin cambios     |          | evidencias/04-renombrar.png      |
+| 5  | Paso 05: SQL de los 2 índices (sqlmigrate)         |          | evidencias/05-indices.png        |
+| 6  | Paso 06: /admin con Categorias, Facturas, Servicios|          | evidencias/06-admin.png          |
+| 7  | Paso 08: explico las 6 consultas de reportes.py    |          | —                                |
+| 8  | Paso 12: cargar_demo con tu usuario                |          | evidencias/12-cargar-demo.png    |
+| 9  | Paso 13: aviso rojo al borrar categoría con servicios |       | evidencias/13-categoria-aviso.png|
+| 10 | Paso 13: factura con 2 renglones y su total        |          | evidencias/13-factura.png        |
+| 11 | Paso 13: reportes 3 y 6 con empates en verde       |          | evidencias/13-reporte3.png y 13-reporte6.png |
+| 12 | Paso 13: cuenta nueva que no ve mis datos          |          | evidencias/13-cuenta-nueva.png   |
+| 13 | Paso 14: EXPLAIN de la consulta 3, columna key     |          | evidencias/14-explain.png        |
+| 14 | Paso 15: Render en vivo, /reportes/ y CSV          |          | evidencias/15-render.png         |
+| 15 | Despedida con resumen                              |          | —                                |
 
-- Repositorio: https://github.com/coronadocordovar-png/u4p3-practica1-coronado-cordova-rene-alejandro
-- Aplicación: https://u4p3-practica1-coronado-cordova-rene.onrender.com
-- Commit de implementación: 60d12cd
-
-### 01. Repositorio GitHub
-![Repositorio](evidencias/01-github.png)
-
-### 02. Despliegue en Render
-![Render](evidencias/02-render.png)
-
-## Categorías y servicios
-
-### 03. Listado de categorías
-![Categorías](evidencias/03-categorias.png)
-
-### 04. Servicios - página 1
-![Servicios página 1](evidencias/04-servicios-pagina1.png)
-
-### 05. Servicios - página 2
-![Servicios página 2](evidencias/05-servicios-pagina2.png)
-
-## Facturación
-
-### 06. Listado de facturas
-![Facturas](evidencias/06-facturas.png)
-
-### 07. Detalle de factura
-![Detalle](evidencias/07-detalle-factura.png)
-
-## Reportes SQL
-
-La aplicación incluye seis reportes SQL con consulta de resultados
-y visualización del plan de ejecución mediante EXPLAIN.
-
-### 08. Menú de reportes
-![Reportes](evidencias/08-reportes.png)
-
-### 09. Resultados del reporte SQL
-![Resultados](evidencias/09-reporte-sql.png)
-
-### 10. EXPLAIN - primera parte
-![EXPLAIN 1](evidencias/10-explain-parte1.png)
-
-### 11. EXPLAIN - segunda parte
-![EXPLAIN 2](evidencias/11-explain-parte2.png)
-
-### 12. EXPLAIN - tercera parte
-![EXPLAIN 3](evidencias/12-explain-parte3.png)
-
-## Verificación
-
-Se realizaron pruebas de navegación de categorías, servicios,
-facturación y reportes SQL, incluyendo la consulta de planes
-de ejecución EXPLAIN.
-
-Las capturas están disponibles en la carpeta evidencias/.
