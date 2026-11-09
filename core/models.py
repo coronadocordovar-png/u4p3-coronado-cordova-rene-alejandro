@@ -37,14 +37,11 @@ class Servicio(models.Model):
     # precio: decimal con 2 dígitos después del punto; no cambia
     precio = models.DecimalField(max_digits=8, decimal_places=2)
 
-    # categoria: la columna de TEXTO vieja; se queda por ahora para no perder lo que ya escribiste
-    categoria = models.CharField(max_length=60)
-
-    # categoria_ref: NUEVA llave foránea a Categoria (temporal; en el paso 04 se renombra a "categoria")
+    # categoria: AHORA es llave foránea a Categoria (antes era texto); en MySQL la columna se llama categoria_id
     # on_delete=PROTECT: MySQL no deja borrar una categoría si todavía tiene servicios
-    # null=True: los servicios que ya existen quedan vacíos hasta que el paso 03 les copie su categoría
+    # null=True: la columna acepta vacío, pero el formulario sí la exige (no tiene blank=True)
     # related_name='servicios': desde una categoría se llega a sus servicios con categoria.servicios
-    categoria_ref = models.ForeignKey(Categoria, on_delete=models.PROTECT, null=True, related_name='servicios')
+    categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT, null=True, related_name='servicios')
 
     # creado_en: fecha y hora de creación automática; no cambia
     creado_en = models.DateTimeField(auto_now_add=True)
