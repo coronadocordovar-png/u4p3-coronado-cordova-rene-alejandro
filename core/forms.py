@@ -66,6 +66,10 @@ class DetalleFacturaForm(forms.ModelForm):
     def __init__(self, *args, usuario=None, **kwargs):
         # super().__init__: deja que Django arme el formulario normal primero
         super().__init__(*args, **kwargs)
+        # Evita que el valor predeterminado 1 active renglones vacios.
+        if self.empty_permitted:
+            self.initial['cantidad'] = None
+            self.fields['cantidad'].initial = None
         # queryset: en la lista desplegable solo aparecen TUS servicios; select_related evita una consulta por renglón
         self.fields['servicio'].queryset = Servicio.objects.filter(propietario=usuario).select_related('categoria')
         # label_from_instance: el texto de cada opción, con su precio (ej. "Clase de álgebra — $150.00")
