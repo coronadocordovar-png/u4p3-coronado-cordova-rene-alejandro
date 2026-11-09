@@ -1,0 +1,80 @@
+{# base.html: el molde de todas las páginas; ahora con menú de secciones, mensajes de color y más ancho #}
+<!DOCTYPE html>
+{# lang="es": el contenido está en español #}
+<html lang="es">
+{# head: datos que no se ven #}
+<head>
+  {# charset UTF-8: acentos y ñ #}
+  <meta charset="UTF-8">
+  {# viewport: se adapta al celular #}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {# block titulo: el texto de la pestaña; si una página no lo cambia, dice "Servicios" #}
+  <title>{% block titulo %}Servicios{% endblock %}</title>
+  {# Play CDN de Tailwind: el mismo de la Semana 2 #}
+  <script src="https://cdn.tailwindcss.com"></script>
+  {# style: reglas mínimas para los campos que dibuja Django #}
+  <style>
+    /* input, textarea, select: borde gris, esquinas redondeadas y ancho completo */
+    input, textarea, select { border: 1px solid #94a3b8; border-radius: .5rem; padding: .4rem .6rem; width: 100%; }
+    /* label: cada etiqueta en su propia línea y en negritas */
+    label { display: block; font-weight: 600; margin-bottom: .2rem; }
+    /* .errorlist: errores de Django en rojo */
+    .errorlist { color: #dc2626; font-size: .9rem; }
+    /* .helptext: textos de ayuda en gris */
+    .helptext { color: #64748b; font-size: .8rem; display: block; }
+  {# cierra los estilos #}
+  </style>
+{# cierra el head #}
+</head>
+{# body: max-w-5xl (antes 2xl) deja espacio para las tablas de facturas y reportes #}
+<body class="max-w-5xl mx-auto py-8 px-4 sm:px-6 bg-white text-slate-900">
+  {# nav: barra superior; flex-wrap acomoda los enlaces en 2 renglones en celular #}
+  <nav class="flex flex-wrap justify-between items-center gap-3 mb-6 text-sm border-b border-slate-200 pb-4">
+    {# div: grupo izquierdo con las secciones del sistema #}
+    <div class="flex flex-wrap gap-4 font-semibold">
+      {# if: el menú de secciones solo se ve con sesión iniciada #}
+      {% if user.is_authenticated %}
+        {# enlace al listado de servicios #}
+        <a href="{% url 'servicios' %}" class="text-blue-700 hover:underline">Servicios</a>
+        {# NUEVO: enlace a categorías #}
+        <a href="{% url 'categorias' %}" class="text-blue-700 hover:underline">Categorías</a>
+        {# NUEVO: enlace a facturas #}
+        <a href="{% url 'facturas' %}" class="text-blue-700 hover:underline">Facturas</a>
+        {# NUEVO: enlace a reportes SQL #}
+        <a href="{% url 'reportes' %}" class="text-blue-700 hover:underline">Reportes SQL</a>
+      {# endif: fin del menú de secciones #}
+      {% endif %}
+    {# cierra el grupo izquierdo #}
+    </div>
+    {# div: grupo derecho con la sesión #}
+    <div class="flex items-center gap-4">
+      {# if: True si hay sesión iniciada #}
+      {% if user.is_authenticated %}
+        {# nombre del usuario #}
+        <span>Hola, <b>{{ user.username }}</b></span>
+        {# cerrar sesión #}
+        <a href="{% url 'logout' %}" class="text-blue-600 underline">Cerrar sesión</a>
+      {# else: visitante sin sesión #}
+      {% else %}
+        {# iniciar sesión #}
+        <a href="{% url 'login' %}" class="text-blue-600 underline">Iniciar sesión</a>
+        {# crear cuenta #}
+        <a href="{% url 'registro' %}" class="text-blue-600 underline">Crear cuenta</a>
+      {# endif: fin del bloque de sesión #}
+      {% endif %}
+    {# cierra el grupo derecho #}
+    </div>
+  {# cierra la barra superior #}
+  </nav>
+  {# for: recorre los mensajes flash #}
+  {% for message in messages %}
+    {# message.tags: "error" para messages.error (rojo); cualquier otro (success, info) va en verde #}
+    <div class="{% if message.tags == 'error' %}bg-red-100 text-red-800{% else %}bg-emerald-100 text-emerald-800{% endif %} px-4 py-2 rounded-lg mb-4">{{ message }}</div>
+  {# endfor: fin de los mensajes #}
+  {% endfor %}
+  {# block contenido: aquí cada página pone lo suyo #}
+  {% block contenido %}{% endblock %}
+{# cierra el body #}
+</body>
+{# cierra el documento #}
+</html>

@@ -1,0 +1,80 @@
+{# extends: usa el molde base.html #}
+{% extends 'core/base.html' %}
+
+{# block titulo: texto de la pestaña #}
+{% block titulo %}Facturas{% endblock %}
+
+{# block contenido: lo que va dentro del body #}
+{% block contenido %}
+  {# h1: título #}
+  <h1 class="text-2xl font-bold mb-6">Facturas</h1>
+  {# enlace para crear una factura nueva #}
+  <a href="{% url 'crear_factura' %}" class="inline-block mb-4 bg-blue-600 text-white px-4 py-2 rounded-lg">+ Nueva factura</a>
+  {# overflow-x-auto: la tabla se desliza de lado en celular #}
+  <div class="overflow-x-auto">
+    {# table: lista de facturas #}
+    <table class="w-full border border-slate-200 rounded-lg overflow-hidden">
+      {# thead: encabezados #}
+      <thead class="bg-slate-100">
+        {# tr: fila de encabezados #}
+        <tr>
+          {# th: folio #}
+          <th class="text-left px-4 py-2">Folio</th>
+          {# th: fecha #}
+          <th class="text-left px-4 py-2">Fecha</th>
+          {# th: cliente #}
+          <th class="text-left px-4 py-2">Cliente</th>
+          {# th: renglones, alineado a la derecha por ser número #}
+          <th class="text-right px-4 py-2">Partidas</th>
+          {# th: total #}
+          <th class="text-right px-4 py-2">Total</th>
+        {# cierra la fila #}
+        </tr>
+      {# cierra thead #}
+      </thead>
+      {# tbody: filas de datos #}
+      <tbody>
+        {# for: una fila por factura de la página actual #}
+        {% for factura in facturas %}
+        {# tr: fila de la factura #}
+        <tr class="border-t border-slate-200">
+          {# td: folio como enlace al detalle #}
+          <td class="px-4 py-2"><a href="{% url 'detalle_factura' factura.pk %}" class="text-blue-600 underline font-mono">{{ factura.folio }}</a></td>
+          {# td: date:"d/m/Y" muestra la fecha como 05/11/2026 #}
+          <td class="px-4 py-2">{{ factura.fecha|date:"d/m/Y" }}</td>
+          {# td: cliente #}
+          <td class="px-4 py-2">{{ factura.cliente }}</td>
+          {# td: partidas viene del annotate(Count) #}
+          <td class="px-4 py-2 text-right">{{ factura.partidas }}</td>
+          {# td: total viene del annotate(Sum); floatformat:2 deja siempre 2 decimales #}
+          <td class="px-4 py-2 text-right font-semibold">${{ factura.total|floatformat:2 }}</td>
+        {# cierra la fila #}
+        </tr>
+        {# empty: si no hay facturas #}
+        {% empty %}
+        {# aviso a lo ancho de las 5 columnas #}
+        <tr><td colspan="5" class="text-center text-slate-500 py-6">Aún no tienes facturas. ¡Crea la primera!</td></tr>
+        {# endfor: fin de la repetición #}
+        {% endfor %}
+      {# cierra tbody #}
+      </tbody>
+    {# cierra la tabla #}
+    </table>
+  {# cierra el contenedor #}
+  </div>
+  {# if: controles de página solo si hay más de una #}
+  {% if facturas.paginator.num_pages > 1 %}
+  {# nav: barra de paginación #}
+  <nav class="mt-4 flex items-center gap-2" aria-label="Paginación">
+    {# página anterior si existe #}
+    {% if facturas.has_previous %}<a href="?page={{ facturas.previous_page_number }}" class="text-blue-600 underline px-2 py-2">← Anterior</a>{% endif %}
+    {# página actual de total #}
+    <span class="text-slate-500">Página {{ facturas.number }} de {{ facturas.paginator.num_pages }}</span>
+    {# página siguiente si existe #}
+    {% if facturas.has_next %}<a href="?page={{ facturas.next_page_number }}" class="text-blue-600 underline px-2 py-2">Siguiente →</a>{% endif %}
+  {# cierra la paginación #}
+  </nav>
+  {# endif: fin de la paginación #}
+  {% endif %}
+{# endblock: fin del contenido #}
+{% endblock %}
