@@ -1,8 +1,9 @@
 from pathlib import Path
+from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'solo-ensayo-local-cambiar-antes-de-publicar'
-DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+SECRET_KEY = config('SECRET_KEY', default='solo-ensayo-local-cambiar-antes-de-publicar')
+DEBUG = config('DEBUG', default=True, cast=bool)
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com']
 INSTALLED_APPS = [
     'django.contrib.admin', 'django.contrib.auth', 'django.contrib.contenttypes',
     'django.contrib.sessions', 'django.contrib.messages', 'django.contrib.staticfiles',
@@ -10,6 +11,7 @@ INSTALLED_APPS = [
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -52,3 +54,15 @@ USE_TZ = True
 STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/login/'
+
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STORAGES = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}

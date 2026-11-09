@@ -7,3 +7,5 @@ venv/
 __pycache__/
 *.pyc
 staticfiles/
+staticfiles/
+settings_backup_local.txt
