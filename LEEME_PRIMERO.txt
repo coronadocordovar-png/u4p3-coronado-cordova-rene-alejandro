@@ -1,0 +1,19 @@
+U4P3: PROYECTO INICIAL DE GRABACIÓN (CRUD de servicios y login)
+
+Nombre de carpeta: u4p3-coronado-cordova-rene-alejandro
+Django interno: miproyecto_CCR | App: core
+
+Este paquete incluye el CRUD inicial, autenticación, migración 0001, kit oficial y .gitignore.
+No es una copia literal de Semana 7: el CRUD inicial fue reconstruido para poder comenzar.
+La base de datos LOCAL es SQLite, no MySQL. Las pruebas SQL y EXPLAIN del maestro NO funcionarán con SQLite; antes de grabar la práctica completa hay que configurar una base MySQL independiente. NO conectar a la base Aiven del proyecto final.
+
+Para comenzar en PowerShell desde esta carpeta:
+  Set-ExecutionPolicy -Scope Process Bypass
+  .\INICIAR_VIDEO.ps1
+
+La guía del maestro indica usar la carpeta de tu proyecto Semana 7/8 con manage.py y partir de categoria como texto.
+Pasos 02 a 12: hacer commits en vivo; 15: commit; 16: commit de evidencias al terminar.
+GitHub y Render no se configuran automáticamente. Nunca mostrar ni subir .env.
+El archivo EVIDENCIAS.md del kit debe completarse con capturas y marcas de tiempo reales.
+
+IMPORTANTE: Este ZIP NO está verificado para la grabación completa de tres horas ni para MySQL/Aiven.
