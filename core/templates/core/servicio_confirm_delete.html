@@ -1,0 +1,28 @@
+﻿{% extends 'core/base.html' %}
+
+{% block titulo %}Eliminar servicio{% endblock %}
+
+{% block contenido %}
+<div class="max-w-xl mx-auto mt-8">
+    <h1 class="text-2xl font-bold mb-4">Eliminar servicio</h1>
+
+    <p class="mb-6">
+        ¿Estás seguro de que deseas eliminar
+        <strong>{{ servicio.titulo }}</strong>?
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <button type="submit"
+                class="bg-red-600 text-white px-4 py-2 rounded-lg">
+            Sí, eliminar
+        </button>
+
+        <a href="{% url 'servicios' %}"
+           class="ml-4 text-blue-600 underline">
+            Cancelar
+        </a>
+    </form>
+</div>
+{% endblock %}
